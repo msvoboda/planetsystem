@@ -38,6 +38,19 @@ public class StarController {
         return list;
     }
 
+    @RequestMapping("/stars/findbyid")
+    public Star findById(@RequestParam("id") long id){
+        Star result = repository.findOne(id);
+        return result;
+    }
+
+    @RequestMapping("/stars/findbyname")
+    public List<Star> findByName(@RequestParam("name") String name){
+        List<Star> result = repository.findByName(name);
+        return result;
+    }
+
+
     @RequestMapping("stars/like")
     public ResultState like(@RequestParam("id") Long id, HttpServletRequest request){
         Session session=null;

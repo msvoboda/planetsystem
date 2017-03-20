@@ -12,7 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "star")
-public class Star {
+public class Star extends PlanetObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Generated(GenerationTime.INSERT)
@@ -27,6 +27,9 @@ public class Star {
 
     @Column(name = "description")
     private String descr;
+
+    @Column(name="image")
+    private String image;
 
     protected Star() {
     }
@@ -65,6 +68,8 @@ public class Star {
     {
         return descr;
     }
+
+    public String getImage() {return image;}
 
     @Column(name = "likes", nullable = false, columnDefinition = "int default 0")
     private int Likes;

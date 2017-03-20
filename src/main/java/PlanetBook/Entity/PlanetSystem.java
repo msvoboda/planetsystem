@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "system")
-public class PlanetSystem {
+public class PlanetSystem extends  PlanetObject{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

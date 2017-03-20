@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "planet")
-public class Planet {
+public class Planet extends  PlanetObject{
 
 
     @Id
@@ -27,6 +27,9 @@ public class Planet {
 
     @Column(name = "description")
     private String descr;
+
+    @Column(name="image")
+    private String image;
 
     @Column(name = "likes", nullable = false, columnDefinition = "int default 0")
     private int Likes;
@@ -77,6 +80,7 @@ public class Planet {
         return descr;
     }
 
+    public String getImage() {return image;}
 
     public int getLikes()
     {
