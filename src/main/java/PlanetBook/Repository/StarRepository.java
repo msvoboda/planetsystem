@@ -12,4 +12,5 @@ import java.util.List;
  */
 public interface StarRepository extends CrudRepository<Star, Long> {
     List<Star> findByName(String name);
+    List<Star> findByDescr(String descr);
 }

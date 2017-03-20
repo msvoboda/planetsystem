@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlanetRepository extends CrudRepository<Planet, Long>{
     List<Planet> findByName(String name);
+    List<Planet> findByDescr(String descr);
 }

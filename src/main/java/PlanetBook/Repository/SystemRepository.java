@@ -13,4 +13,5 @@ import java.util.List;
 @Repository
 public interface SystemRepository extends CrudRepository<PlanetSystem, Long> {
     List<PlanetSystem> findByName(String name);
+    List<PlanetSystem> findByDescr(String descr);
 }
