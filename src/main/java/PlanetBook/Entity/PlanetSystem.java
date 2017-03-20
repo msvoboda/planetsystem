@@ -1,5 +1,6 @@
 package PlanetBook.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -18,7 +19,7 @@ public class PlanetSystem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Generated(GenerationTime.INSERT)
     @Column(name = "id")
-    private long id;
+    private int id;
 
     @Column(name = "name")
     private String name;
@@ -26,22 +27,27 @@ public class PlanetSystem {
     @Column(name = "description")
     private String descr;
 
-    @OneToMany(mappedBy="System")
-    private Set<Planet> planets;
 
-    @OneToOne(mappedBy="System", cascade=CascadeType.ALL)
-    private Star star;
+    @OneToOne(mappedBy="systemPlanet", cascade=CascadeType.ALL)
+    private Star Star;
+
+    @OneToMany(mappedBy="systemPlanet")
+    private Set<Planet> Planets;
+
 
     protected PlanetSystem() {
     }
 
-    public PlanetSystem(String Name) {
+    public PlanetSystem(String Name, Star star) {
         this.name = Name;
+        Star = star;
+        star.setSystem(this);
     }
 
     public long getId() {
         return id;
     }
+
 
     public String getName() {
         return name;
@@ -50,5 +56,14 @@ public class PlanetSystem {
     public String getDescr()
     {
         return descr;
+    }
+
+    public PlanetBook.Entity.Star getStar() {
+        return Star;
+    }
+
+    public Set<Planet> getPlanets()
+    {
+        return Planets;
     }
 }

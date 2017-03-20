@@ -4,7 +4,10 @@ package PlanetBook.Controller;
  * Created by MICHAL on 10.3.2017.
  */
 import PlanetBook.Entity.Planet;
+import PlanetBook.Entity.PlanetSystem;
+import PlanetBook.Entity.Star;
 import PlanetBook.PlanetRepository;
+import PlanetBook.SystemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +28,8 @@ public class PlanetsController {
 
     @Autowired(required = true)
     PlanetRepository repository;
+    @Autowired(required = true)
+    SystemRepository sysrepository;
 
     @RequestMapping("/")
     public String index() {
@@ -34,6 +39,10 @@ public class PlanetsController {
 
     @RequestMapping("/initialize")
     public String init() {
+
+        Star star = new Star("sun");
+        sysrepository.save(new PlanetSystem("solar", star));
+/*
         repository.save(new Planet("Merkur", "solar"));
         repository.save(new Planet("Venuše", "solar"));
         repository.save(new Planet("Země", "solar"));
@@ -42,7 +51,7 @@ public class PlanetsController {
         repository.save(new Planet("Saturn", "solar"));
         repository.save(new Planet("Uran", "solar"));
         repository.save(new Planet("Neptun", "solar"));
-
+*/
         return "Done";
     }
 
@@ -57,6 +66,16 @@ public class PlanetsController {
         List<Planet> list = new ArrayList<Planet>();
 
         for (Planet pl : repository.findAll()) {
+            list.add(pl);
+        }
+        return list;
+    }
+
+    @RequestMapping("/systems")
+    public List<PlanetSystem> getSystems() {
+        List<PlanetSystem> list = new ArrayList<PlanetSystem>();
+
+        for (PlanetSystem pl : sysrepository.findAll()) {
             list.add(pl);
         }
         return list;

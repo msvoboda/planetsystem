@@ -1,5 +1,6 @@
 package PlanetBook.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -24,22 +25,39 @@ public class Planet implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "system")
-    private String system;
-
     @Column(name = "description")
     private String descr;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "system_id", referencedColumnName = "id")
-    private PlanetSystem System;
+    @Column(name = "system_id", insertable = false, updatable = false)
+    private int system_id;
+
+    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "system_id", referencedColumnName = "id")
+    private PlanetSystem systemPlanet;
+
+    public void setSystem(PlanetSystem sys)
+    {
+        systemPlanet = sys;
+    }
+
+    @JsonIgnore
+    public PlanetSystem getSystem()
+    {
+        return systemPlanet;
+    }
+
+    public long getSystem_id() {
+        return system_id;
+    }
+
+
 
     protected Planet() {
     }
 
     public Planet(String Name, String sys) {
         this.name = Name;
-        this.system = sys;
+        //this.system = sys;
     }
 
     public long getId() {
@@ -48,11 +66,6 @@ public class Planet implements Serializable {
 
     public String getName() {
         return name;
-    }
-
-    public String getSystem()
-    {
-        return system;
     }
 
     public String getDescr()
