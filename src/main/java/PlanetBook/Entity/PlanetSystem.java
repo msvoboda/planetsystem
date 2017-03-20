@@ -1,10 +1,13 @@
 package PlanetBook.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javafx.collections.ObservableSet;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -19,7 +22,7 @@ public class PlanetSystem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Generated(GenerationTime.INSERT)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -28,8 +31,8 @@ public class PlanetSystem {
     private String descr;
 
 
-    @OneToOne(mappedBy="systemPlanet", cascade=CascadeType.ALL)
-    private Star Star;
+    @OneToMany(mappedBy="systemPlanet", cascade=CascadeType.ALL)
+    private Set<Star> Stars;
 
     @OneToMany(mappedBy="systemPlanet")
     private Set<Planet> Planets;
@@ -38,10 +41,13 @@ public class PlanetSystem {
     protected PlanetSystem() {
     }
 
-    public PlanetSystem(String Name, Star star) {
+    public PlanetSystem(String Name, ArrayList<Star> stars, ArrayList<Planet> planets) {
         this.name = Name;
-        Star = star;
-        star.setSystem(this);
+        Stars = new HashSet<Star>();
+        Stars.addAll(stars);
+        Planets = new HashSet<Planet>();
+        Planets.addAll(planets);
+        //star.setSystem(this);
     }
 
     public long getId() {
@@ -58,12 +64,20 @@ public class PlanetSystem {
         return descr;
     }
 
-    public PlanetBook.Entity.Star getStar() {
-        return Star;
+    public Set<PlanetBook.Entity.Star> getStars() {
+        return Stars;
     }
 
     public Set<Planet> getPlanets()
     {
         return Planets;
+    }
+
+    @Column(name = "likes")
+    private int Likes;
+
+    public int getLikes()
+    {
+        return Likes;
     }
 }

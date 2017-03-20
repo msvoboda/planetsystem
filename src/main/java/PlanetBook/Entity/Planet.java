@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "planet")
-public class Planet implements Serializable {
+public class Planet {
 
 
     @Id
@@ -27,6 +27,9 @@ public class Planet implements Serializable {
 
     @Column(name = "description")
     private String descr;
+
+    @Column(name = "likes", nullable = false, columnDefinition = "int default 0")
+    private int Likes;
 
     @Column(name = "system_id", insertable = false, updatable = false)
     private int system_id;
@@ -46,6 +49,7 @@ public class Planet implements Serializable {
         return systemPlanet;
     }
 
+    @JsonIgnore
     public long getSystem_id() {
         return system_id;
     }
@@ -55,9 +59,9 @@ public class Planet implements Serializable {
     protected Planet() {
     }
 
-    public Planet(String Name, String sys) {
+    public Planet(String Name, String desc) {
         this.name = Name;
-        //this.system = sys;
+        this.descr = desc;
     }
 
     public long getId() {
@@ -71,6 +75,17 @@ public class Planet implements Serializable {
     public String getDescr()
     {
         return descr;
+    }
+
+
+    public int getLikes()
+    {
+        return Likes;
+    }
+
+    public void setLikes(int set)
+    {
+      Likes = set;
     }
 
 }

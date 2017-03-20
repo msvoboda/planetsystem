@@ -12,12 +12,15 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "star")
-public class Star extends PlanetObject {
+public class Star {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Generated(GenerationTime.INSERT)
-    @Column(name = "system_id")
-    private int system_id;
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "system_id", insertable = false, updatable = false)
+    private Long system_id;
 
     @Column(name = "name")
     private String name;
@@ -32,7 +35,7 @@ public class Star extends PlanetObject {
         this.name = Name;
     }
 
-    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "system_id", referencedColumnName = "id")
     private PlanetSystem systemPlanet;
 
@@ -51,6 +54,8 @@ public class Star extends PlanetObject {
         return system_id;
     }
 
+    public long getId() {return id;}
+
     public String getName() {
         return name;
     }
@@ -61,5 +66,16 @@ public class Star extends PlanetObject {
         return descr;
     }
 
+    @Column(name = "likes", nullable = false, columnDefinition = "int default 0")
+    private int Likes;
 
+    public int getLikes()
+    {
+        return Likes;
+    }
+
+    public void setLikes(int set)
+    {
+        Likes = set;
+    }
 }
